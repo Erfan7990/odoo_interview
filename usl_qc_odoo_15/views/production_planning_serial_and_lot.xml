@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="production_planning_serial_form_view" model="ir.ui.view">
+        <field name="name">production.planning.serial.form</field>
+        <field name="model">production.planning.serial</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="product_id" readonly="1"/>
+                            <field name="production_planning_line_id" invisible="1"/>
+                            <field name="qty" readonly="1"/>
+                            <field name="assign_serial" style="width:200px;" attrs="{'invisible': [('is_clicked_button', '=', True)]}"/>
+                            <button name="action_assign_serial_number" string='Assign Serial' type="object"
+                                    class="btn-success" attrs="{'invisible': [('is_clicked_button', '=', True)]}"/>
+
+                            <field name="bom_id" invisible="1"/>
+                            <field name="is_clicked_button" invisible="1"/>
+                        </group>
+                        <group>
+
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Add Product Serial">
+                            <field name="pp_serial_line_ids">
+                                <tree delete="false" create="0">
+                                    <field name="product_id" force_save="1"/>
+                                    <field name="bom_id" invisible="1" force_save="1"/>
+                                    <field name="lot_id" force_save="1"/>
+                                    <field name="qty" force_save="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button string="Save and Close" class="oe_highlight" type="object" name="save_and_close"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

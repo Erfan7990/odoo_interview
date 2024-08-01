@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_pre_qc_wizard_form" model="ir.ui.view">
+            <field name="name">pre.qc.wizard.form</field>
+            <field name="model">pre.qc.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Manufacturing Pre-QC">
+                    <group>
+                        <group>
+                            <field name="manufacture_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="pre_qc_config_id"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Proceed" type="object" class="oe_highlight"
+                                name="action_proceed"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_pre_qc_wizard_view" model="ir.actions.act_window">
+            <field name="name">Manufacturing Pre-QC</field>
+            <field name="res_model">pre.qc.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_pre_qc_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

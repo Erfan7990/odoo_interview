@@ -1,0 +1,81 @@
+# -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
+
+{
+    'name': 'Quality Control',
+    'version': '1.1.0',
+    'category': '',
+    'author': 'Unisoft',
+    'sequence': -100,
+    'summary': 'Quality Control',
+    'description': """Unisoft Quality Control""",
+
+    'depends': [
+        'mail',
+        'product',
+        'report_xlsx',
+        'stock',
+        'mrp',
+        'purchase',
+        'legion_webcam_image',
+        'custom_inventory_module',
+        # 'usl_recived_forigin_purchased',
+        # 'usl_foreign_purchase_smart'
+    ],
+
+    'data': [
+        'security/ir.model.access.csv',
+        'security/security.xml',
+        'wizard/failed_item_resend_wizard.xml',
+        'wizard/replace_component_wizard.xml',
+        # 'views/inherit_menu.xml',
+        'data/sequence.xml',
+        # 'data/service_corn.xml',
+        'views/menu.xml',
+        # 'views/customer_order_req_views.xml',
+        'views/customer_qc_checking_view.xml',
+        'views/supplier_qc_checking.xml',
+        'views/incoming_material_qc_view.xml',
+        # 'views/sample_qc_views.xml',
+        # 'views/product_allocation_inherit_views.xml',
+        'views/inherit_stock_location_view.xml',
+        'views/inherit_stock_picking.xml',
+        # 'views/mrb_qc_view.xml',
+        'views/production_planning_views.xml',
+        # 'views/item_sent_to_customer_views.xml',
+        'views/qc_inspection_basis_views.xml',
+        'views/qc_inspection_methods_views.xml',
+        'views/qc_use_equipment_views.xml',
+        'views/qc_inspection_form_views.xml',
+        'views/qc_responsibility_units_views.xml',
+        'views/pre_qc_config_views.xml',
+        'views/mrp_production_inherit_views.xml',
+        # 'views/pre_qc_wizard_views.xml',
+        'views/manufact_qc_checking_views.xml',
+        # 'views/pre_qc_view.xml',
+        'views/inherit_purchase_order.xml',
+        'views/material_qc_line_view.xml',
+        'views/inherit_stock_move.xml',
+        'views/desk_setup_configuration.xml',
+        'views/inherit_mrp_workcenter.xml',
+        'views/line_management_views.xml',
+        'views/engineer_profile_view.xml',
+        'views/production_planning_serial_and_lot.xml',
+        'views/assign_engineer_desk.xml',
+        'views/role_manage_views.xml',
+        # 'reports/bulk_execl_format_report.xml',
+
+    ],
+
+    'assets': {
+        'web.assets_backend': [
+            'usl_qc/static/src/js/barcode_field.js',
+        ],
+    },
+    'demo': [],
+    'application': True,
+    'installable': True,
+    'auto_install': False,
+    'license': 'LGPL-3',
+}

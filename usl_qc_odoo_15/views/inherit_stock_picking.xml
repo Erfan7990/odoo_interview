@@ -1,0 +1,54 @@
+<odoo>
+    <data>
+        <!-- Form View -->
+        <record id="view_stock_picking_form_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.form.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="priority">20</field>
+            <field name="arch" type="xml">
+
+                <!--                <xpath expr="//button[@name='button_validate'][1]" position="attributes">-->
+                <!--                    <attribute name="attrs">-->
+                <!--                        {'invisible':[('is_stock_button_visible', '=', True)]}-->
+                <!--                    </attribute>-->
+                <!--                </xpath>-->
+
+<!--                <button name="action_assign" attrs="{'invisible': [('show_check_availability', '=', False)]}" string="Check Availability" type="object" class="oe_highlight" groups="base.group_user"/>-->
+
+
+                <xpath expr="//header/button[@name='action_assign']" position="attributes">
+                     <attribute name="attrs">{'invisible': [
+                         '|','|',('show_check_availability','=',True),('state','!=','confirmed'),('is_nonsalealewarehouse_transfar','=',True)
+                         ]}</attribute>
+<!--                    <attribute name="invisible">1</attribute>-->
+                </xpath>
+
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="show_hide_check_availability" invisible="1"/>
+                    <field name="is_from_qc" invisible="1"/>
+                </xpath>
+
+
+            </field>
+        </record>
+
+
+        <record id="inherit_view_custom_stock_picking_form" model="ir.ui.view">
+            <field name="name">stock.picking.form.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="custom_inventory_module.view_custom_stock_picking_form"/>
+            <field name="priority">20</field>
+            <field name="arch" type="xml">
+
+                <xpath expr="//header/button[@name='action_assign']" position="attributes">
+                     <attribute name="attrs">{'invisible': [
+                         '|','|',('show_check_availability', '=', False),('check_approval', '=', True),('is_nonsalealewarehouse_transfar','=',True)
+                         ]}</attribute>
+                </xpath>
+
+
+            </field>
+        </record>
+    </data>
+</odoo>

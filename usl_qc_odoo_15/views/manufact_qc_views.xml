@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="incoming_material_qc_tree_view" model="ir.ui.view">
+        <field name="name">incoming.material.qc.tree</field>
+        <field name="model">incoming.material.qc</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="seq"/>
+                <field name="purchase_order"/>
+                <!--                <field name="is_po_created"/>-->
+                <!--                <field name="qc_state"/>-->
+            </tree>
+        </field>
+    </record>
+
+    <record id="incoming_material_qc_form_view" model="ir.ui.view">
+        <field name="name">incoming.material.qc.form</field>
+        <field name="model">incoming.material.qc</field>
+        <field name="arch" type="xml">
+
+            <form>
+                <header>
+                    <button name="action_confirm" type="object" class="btn btn-primary" string="Validate"
+                            attrs="{'invisible': [('state', 'in', ['cancel','assigned'])]}"/>
+                    <button name="action_draft" type="object" string="Reset to Draft"
+                            attrs="{'invisible': [('state', 'in', ['draft','assigned'])]}"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            attrs="{'invisible': [('state', 'in', ['cancel', 'draft'])]}"/>
+                    <!--                    <button name="action_mrb_qc" type="object" string="Send To MRB Stock"/>-->
+
+                    <field name="state" widget="statusbar" statusbar_visible="draft,assigned"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="btn btn-primary oe_stat_button" type="object" name="action_iqc_qc"
+                                icon='fa-desktop'>
+                            <div class="o_form_field o_stat_info">
+                                <div>
+                                    <field name="qc_count"/>
+                                </div>
+                                <span class="o_stat_text">QC Done</span>
+                            </div>
+                        </button>
+                        <button class="btn btn-primary oe_stat_button" type="object" name="action_transfer_button"
+                                icon='fa-puzzle-piece'>
+                            <div class="o_form_field o_stat_info">
+                                <div>
+                                    <field name="count_transfer"/>
+                                </div>
+                                <span class="o_stat_text">Transfers</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="seq"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="purchase_order"/>
+                            <field name="is_mandatory_po" invisible="1"/>
+                            <field name="is_optional_po" invisible="1"/>
+                            <!--                        <field name="show_smart_button" invisible="1"/>-->
+                            <field name="vendor"/>
+                            <field name="qc_state" widget='radio'/>
+
+                            <field name="user_id" invisible="1"/>
+                            <field name="qc_type" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="responsible_person_passed_qc"
+                                   attrs="{'required': [('is_mandatory_po', '=', True)], 'invisible': [('is_mandatory_po', '=', False)]}"/>
+                            <field name="passed_location"
+                                   attrs="{'invisible': ['|',('is_mandatory_po', '=', False),('responsible_person_passed_qc', '=', False)]}"/>
+
+                            <field name="responsible_person_failed_qc"/>
+                            <field name="failed_location"
+                                   attrs="{'invisible': [('responsible_person_failed_qc', '=', False)]}"/>
+                        </group>
+
+
+                    </group>
+                    <notebook>
+                        <page string="Product Lines">
+                            <field name="iqc_line_id">
+                                <tree editable="bottom">
+                                    <field name="product" widget="many2one" force_save="1"/>
+                                    <field name="lot_ids" widget="many2many_tags" invisible="1"/>
+                                    <field name="product_qty" force_save="1"/>
+                                    <field name="hand_on_qty" force_save="1" string="QC on hand"/>
+                                    <field name="state" force_save="1"/>
+                                    <field name="passed_qty" sum="Total passed"/>
+                                    <field name="mrb_qty" sum="Total failed"/>
+
+                                    <button name="action_customer_qc" type="object"
+                                            icon="fa-external-link" string="QC Action"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_manufacture_qc" model="ir.actions.act_window">
+        <field name="name">QC</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">incoming.material.qc</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Enter the first order!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_manufacture_qc"
+              name="Manufacture"
+              parent="menu_qc"
+              action="action_manufacture_qc"
+              sequence="0"/>
+
+
+</odoo>

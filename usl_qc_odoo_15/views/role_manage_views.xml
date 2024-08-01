@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record id="view_role_manage_tree" model="ir.ui.view">
+        <field name="name">role.manage.tree</field>
+        <field name="model">role.manage</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="role"/>
+                <field name="users" widget="many2many_tags"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_role_manage_form" model="ir.ui.view">
+        <field name="name">role.manage.form</field>
+        <field name="model">role.manage</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="role"/>
+                            <field name="company_id"/>
+                            <field name="category_id" invisible="1"/>
+                            <field name="role_select" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="users" widget="many2many_tags" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_role_manage" model="ir.actions.act_window">
+        <field name="name">Production Roles</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">role.manage</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Enter the first Approver!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_role_manage"
+              name="Production Roles"
+              groups="group_smart_hitech_admin"
+              action="action_role_manage"
+              parent="mrp.menu_mrp_configuration"
+              sequence="50"/>
+
+</odoo>

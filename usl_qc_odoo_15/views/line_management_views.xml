@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="line_manager_kanban_view" model="ir.ui.view">
+        <field name="name">line.management.kanban</field>
+        <field name="model">line.management</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" create="0" records_draggable="0">
+                <field name="id"/>
+                <field name="color"/>
+                <field name="name" readonly="1"/>
+                <field name="source"/>
+                <field name="line_manager" readonly="1"/>
+                <field name="assembly_line"/>
+                <field name="date" readonly="1" widget="remaining_days"/>
+                <field name="state"/>
+                <field name="planning_id"/>
+
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title">
+                                    <h5>
+                                        <field name="name"/>
+                                    </h5>
+                                </strong>
+                                <div class="o_kanban_tags_section"/>
+                                <ul>
+                                    <li>Product:
+                                        <field name="line_manager"/>
+                                    </li>
+                                    <li>Desk:
+                                        <field name="assembly_line"/>
+                                    </li>
+                                    <li>Date:
+                                        <field name="date" readonly="1" widget="remaining_days"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <record id="line_management_tree_view" model="ir.ui.view">
+        <field name="name">line.management.tree</field>
+        <field name="model">line.management</field>
+        <field name="arch" type="xml">
+            <tree
+                    decoration-info="state == 'pending_approval'"
+                    decoration-warning="state == 'in_progress'"
+                    decoration-success="state == 'complete'"
+                    decoration-danger="state in ('cancel', 'qc_failed')"
+            >
+                <field name="source"/>
+                <field name="line_manager"/>
+                <field name="assembly_line"/>
+                <field name="date"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'pending_approval'"
+                       decoration-warning="state == 'in_progress'"
+                       decoration-success="state == 'complete'"
+                       decoration-danger="state in ('cancel', 'qc_failed')"
+                />
+            </tree>
+        </field>
+    </record>
+
+    <record id="line_management_form_view" model="ir.ui.view">
+        <field name="name">line.management.form</field>
+        <field name="model">line.management</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <!--                    <button name="action_in_progress" string="Work In Progress" type="object" class="btn-primary"-->
+                    <!--                            attrs="{'invisible':[('state','in',['in_progress', 'cancel'])]}"/>-->
+
+
+                    <button name="pre_assign_desk_engineer" string="Assign Desk/Engineer" class="btn-primary"
+                            type="object"
+                            attrs="{'invisible':[('state','in',['complete', 'cancel'])]}"/>
+
+                    <button name="post_assign_desk_engineer" string="Reassign" class="btn-info" type="object"
+                            attrs="{'invisible':[('is_engineer_assign','=',False)]}"/>
+
+                    <button name="action_cancel" string="Cancel" type="object"
+                            attrs="{'invisible':[('state','in',['complete', 'cancel'])]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="pending_approval,in_progress,complete"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+
+                        <button name="action_created_manufacture_order" type="object" icon="fa-wrench" attrs="{'invisible': [('state', '=', 'qc_failed')]}">
+                            <div class="o_form_field o_stat_info">
+                                <div>
+                                    <field name="count_mo"/>
+                                </div>
+                                <span class="o_stat_text">Manufacture Orders</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="line_manager" readonly="1" options="{'no_open': True}"/>
+                            <field name="assembly_line" readonly="1" options="{'no_open': True}"/>
+                            <field name="planning_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="date" readonly="1"/>
+                            <field name="source" string="Source Document" readonly="1"/>
+                            <field name="remarks" readonly="1"
+                                   attrs="{'invisible':[('state', '!=', 'qc_failed')]}"/>
+                            <field name="src_location_id" invisible="1"/>
+                            <field name="dest_location_id" invisible="1"/>
+                            <field name="is_engineer_assign" invisible="1"/>
+                            <field name="is_engineer_reassign" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+
+                        <page string="To Assign">
+                            <field name="line_management_line_ids">
+                                <tree editable="bottom" create="false">
+                                    <field name="bom_id" readonly="1"/>
+                                    <field name="qty" string="Quantity" readonly="1"/>
+                                    <field name="remaining_qty" readonly="1"/>
+                                    <field name="total_assigned_qty" readonly="1" invisible="1"/>
+                                    <field name="lot_ids" widget="many2many_tags" optional="hide" readonly="1"/>
+                                    <field name="mrp_remaining_qty" readonly="1" invisible="1"/>
+                                    <field name="production_done_qty" readonly="1"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Assigned">
+                            <field name="wizard_line_ids">
+                                <tree create="false">
+                                    <field name="engineer" readonly="1"/>
+                                    <field name="desk" readonly="1"/>
+                                    <field name="bom_id" readonly="1"/>
+                                    <field name="qty" string="Quantity" readonly="1"/>
+                                    <field name="lot_ids" readonly="1" widget="many2many_tags"/>
+                                    <field name="remaining_qty" readonly="1" invisible="1"/>
+                                    <field name="production_complete_qty" readonly="1"/>
+
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Newly Assigned"
+                        attrs="{'invisible': [('is_engineer_reassign', '=', False)]}">
+                            <field name="new_wizard_line_ids">
+                                <tree create="false">
+                                    <field name="reassign_engineer" readonly="1"/>
+                                    <field name="reassign_desk" readonly="1"/>
+                                    <field name="bom_id" readonly="1"/>
+                                    <field name="qty" string="Quantity" readonly="1"/>
+                                    <field name="lot_ids" readonly="1" widget="many2many_tags"/>
+                                    <field name="remaining_qty" readonly="1" invisible="1"/>
+                                    <field name="production_complete_qty" readonly="1"/>
+
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_line_management" model="ir.actions.act_window">
+        <field name="name">Line Management</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">line.management</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create First Record
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_line_management"
+              name="Line Management"
+              groups="group_smart_hitech_line_manager"
+              parent="menu_mrp_planning"
+              action="usl_qc.action_line_management"
+              sequence="20"/>
+</odoo>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_customer_order_req_line_specification_wizard_form" model="ir.ui.view">
+        <field name="name">customer.order.req.line.specification.wizard.form</field>
+        <field name="model">customer.order.req.line.specification.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="order_line_id" invisible="1"/>
+                        <field name="specification_text" widget="html" force_save="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_customer_order_tree" model="ir.ui.view">
+        <field name="name">customer.order.req.tree</field>
+        <field name="model">customer.order.req</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="customer"/>
+                <field name="address"/>
+                <field name="date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_customer_order_form" model="ir.ui.view">
+        <field name="name">customer.order.req.form</field>
+        <field name="model">customer.order.req</field>
+        <field name="arch" type="xml">
+
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" name="send_sample_to_customer_button"
+                                type="object"
+                                widget="statinfo" icon="fa-envelope" string="Send to Customer">
+                        </button>
+<!--                        <button class="oe_stat_button" name="customer_qc_button"-->
+<!--                                type="object"-->
+<!--                                widget="statinfo" icon="fa-puzzle-piece" string="Customer QC">-->
+<!--                        </button>-->
+                    </div>
+                    <group>
+                        <group>
+                            <field name="customer"/>
+                            <field name="address"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Product Lines">
+                            <field name="product_lines" widget="many2many_list" options="{'no_create': True}"
+                                   editable="bottom">
+                                <tree editable="bottom">
+                                    <field name="product"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <button name="action_specification" string="Product Specification" type="object"
+                                            icon="fa-external-link"/>
+                                    <!--                                    <field name="price"/>-->
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_customer_order" model="ir.actions.act_window">
+        <field name="name">Customer Order Requirement</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">customer.order.req</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Enter the first order!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_customer_order"
+              name="Customer Order Requirement"
+              action="action_customer_order"
+              parent="menu_customer_order_master"
+              sequence="10"/>
+</odoo>

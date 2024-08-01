@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+
+    <report
+    id="bulk_format_report"
+    model="incoming.material.qc"
+    string="Download execl Format"
+    report_type="xlsx"
+    name="usl_qc.bulk_format_report_xls"
+    file="usl_qc.bulk_format_report_xls"
+    />
+</odoo>

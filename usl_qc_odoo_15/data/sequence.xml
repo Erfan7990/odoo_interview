@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data>
+        <record id="incoming_material_sequence" model="ir.sequence">
+            <field name="name">Incoming Material Sequence</field>
+            <field name="code">usl_qc.incoming_material</field>
+            <field name="prefix">QC-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="mbr_qc_sequence" model="ir.sequence">
+            <field name="name">MRB Sequence</field>
+            <field name="code">usl_qc.mrb_qc</field>
+            <field name="prefix">MRB-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="mpr_planning_sequence" model="ir.sequence">
+            <field name="name">MRP Planning</field>
+            <field name="code">production.planning</field>
+            <field name="prefix">MRP-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="line_management_sequence" model="ir.sequence">
+            <field name="name">Line Management</field>
+            <field name="code">line.management</field>
+            <field name="prefix">LM-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="engineer_profile_sequence" model="ir.sequence">
+            <field name="name">Engineer Profile</field>
+            <field name="code">engineer.profile</field>
+            <field name="prefix">ED-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

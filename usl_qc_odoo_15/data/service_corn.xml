@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ir_cron_auto_engineer_state_cancel_entry" model="ir.cron">
+        <field name="name">Engineer; Post cancel entries with auto_cancel set to True up to today</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="nextcall" eval="(DateTime.now().replace(hour=2, minute=0) + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')" />
+        <field name="doall" eval="False"/>
+        <field name="model_id" ref="model_engineer_profile"/>
+        <field name="code">model._auto_cancel_entries()</field>
+        <field name="state">code</field>
+    </record>
+</odoo>

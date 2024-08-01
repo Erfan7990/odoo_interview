@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_qc_root"
+              name="Quality Control"
+              web_icon="usl_qc,static/description/icon.png"
+              sequence="0"/>
+
+<!--    <menuitem id="menu_customer_order_master"-->
+<!--              name="Customer Order"-->
+<!--              parent="menu_qc_root"-->
+<!--              sequence="0"/>-->
+
+    <menuitem id="menu_mrp_planning"
+              name="MRP"
+              parent="mrp.menu_mrp_root"
+              sequence="-100"/>
+
+<!--    <menuitem id="menu_production_planning"-->
+<!--              name="MRP"-->
+<!--              parent="usl_qc.menu_qc_root"-->
+<!--              />-->
+
+    <menuitem id="menu_qc_config"
+              name="Configuration"
+              parent="menu_qc_root"
+              sequence="100"/>
+
+</odoo>

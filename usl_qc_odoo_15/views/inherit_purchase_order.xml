@@ -1,0 +1,41 @@
+<odoo>
+    <data>
+
+
+        <record id="inherit_purchase_order_form_view" model="ir.ui.view">
+            <field name="name">purchase.order.form.inherit</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='picking_type_id']" position="before">
+                    <field name="transfer_type" required="1" style="height: 28px; width:100%;"
+                    attrs="{'readonly': [('state', '=', 'purchase')]}"/>
+                  
+<!--                    <field name="deliver" attrs="{'invisible': [('transfer_type','=','optional_qc')]}" required="1"/>-->
+                </xpath>
+
+                <xpath expr="//field[@name='picking_type_id']" position="attributes">
+                    <attribute name="attrs">{'invisible':[('transfer_type','=',False)]}</attribute>
+                </xpath>
+
+                <xpath expr="//form//sheet//div[@name='button_box']//button[@name='action_view_invoice']"
+                       position="before">
+                    <button name="action_iqc_qc" class="oe_stat_button" icon="fa-puzzle-piece" type="object">
+
+                         <div class="o_form_field o_stat_info">
+                                <div><field name="qc_count"/></div>
+                                <span class="o_stat_text">QC</span>
+                            </div>
+                    </button>
+                </xpath>
+
+<!--                <xpath expr="//field[@name='picking_type_id']" position="attributes">-->
+<!--                    <attribute name="attrs">-->
+<!--                        {'invisible': [('transfer_type','=','mandatory_qc')]}-->
+<!--                    </attribute>-->
+<!--                </xpath>-->
+            </field>
+        </record>
+
+    </data>
+</odoo>

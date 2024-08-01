@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record id="customer_qc_checking_line_search_view" model="ir.ui.view">
+        <field name="name">customer.qc.checking.line.search</field>
+        <field name="model">customer.qc.checking.line</field>
+        <field name="arch" type="xml">
+            <search string="Search">
+                <group expand="1" string="Group By">
+                    <filter name="qc_state" context="{'group_by': 'qc_state'}" string="Status"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="customer_qc_checking_line_tree_view" model="ir.ui.view">
+        <field name="name">customer.qc.checking.line.tree</field>
+        <field name="model">customer.qc.checking.line</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom" create="0">
+                <field name="qc_stages" readonly="1"/>
+                <field name="product_id" readonly="1"/>
+                <field name="lot_ids" readonly="1"/>
+                <field name="vendor" invisible="1"  readonly="1"/>
+                <field name="inspection_basis"  readonly="1"/>
+                <field name="inspection_methods"  readonly="1"/>
+                <field name="use_equipment"  readonly="1"/>
+                <field name="qty"  readonly="1"/>
+                <field name="inspection_form"  readonly="1"/>
+                <field name="exception_handling"  readonly="1"/>
+                <field name="responsibility_units"  readonly="1"/>
+                <field name="qc_state"  readonly="1"/>
+                <field name="mrb_choose"  readonly="0" attrs="{'invisible': [('qc_state', '!=', 'failed')]}"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="customer_qc_checking_line_form_view" model="ir.ui.view">
+        <field name="name">customer.qc.checking.line.form</field>
+        <field name="model">customer.qc.checking.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="product_id"/>
+                            <field name="vendor" invisible="1"/>
+                            <field name="inspection_basis"/>
+                            <field name="inspection_methods"/>
+                            <field name="use_equipment"/>
+                            <field name="qty"/>
+                        </group>
+                        <group>
+                            <field name="inspection_form"/>
+                            <field name="exception_handling"/>
+                            <field name="responsibility_units"/>
+                            <field name="qc_state"/>
+                            <field name="mrb_choose"/>
+                        </group>
+                    </group>
+
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_customer_qc_checking_line" model="ir.actions.act_window">
+        <field name="name">Material QC</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">customer.qc.checking.line</field>
+        <field name="view_mode">tree</field>
+        <field name="domain">[]</field>
+        <field name="context">{'search_default_qc_state':1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Enter the first order!
+            </p>
+        </field>
+    </record>
+
+</odoo>

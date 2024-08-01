@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="failed_item_resend_form_view" model="ir.ui.view">
+        <field name="name">failed.item.resend.wizard.form</field>
+        <field name="model">failed.item.resend.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                            <field name="product_id" invisible="1"/>
+                            <field name="lot_ids" widget="many2many_tags" invisible="1"/>
+                            <field name="line_manager" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}"/>
+                            <field name="assembly_line" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}"/>
+                            <field name="remarks" required="1"/>
+
+
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Confirm" class="oe_highlight" type="object" name="action_confirm"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

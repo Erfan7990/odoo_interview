@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pre_material_qc_tree_view" model="ir.ui.view">
+        <field name="name">pre.material.qc.tree</field>
+        <field name="model">incoming.material.qc</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="seq"/>
+                <field name="purchase_order"/>
+                <!--                <field name="qc_state"/>-->
+            </tree>
+        </field>
+    </record>
+
+    <record id="pre_material_qc_form_view" model="ir.ui.view">
+        <field name="name">pre.material.qc.form</field>
+        <field name="model">incoming.material.qc</field>
+        <field name="arch" type="xml">
+
+            <form>
+                <header>
+                    <button name="action_passed_qc" type="object" class="btn btn-primary" string="Send To CHO Stock"/>
+<!--                    <button name="action_mrb_qc" type="object" string="Send To MRB Stock"/>-->
+                </header>
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <!--                        <button class="btn btn-primary oe_stat_button" type="object" name="action_view_picking"-->
+                        <!--                                icon='fa-truck' attrs="{'invisible': [('show_smart_button','=',False)]}">-->
+                        <!--                            <field name="transfer_delivery_count"/>-->
+                        <!--                            Delivery-->
+                        <!--                        </button>-->
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="seq"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="purchase_order" attrs="{'readonly': [('qc_type', '=', 'pre_qc')]}"/>
+                            <!--                        <field name="show_smart_button" invisible="1"/>-->
+                            <field name="vendor"/>
+                            <field name="qc_state" widget='radio'/>
+                            <field name="destination_location_id" invisible="1"/>
+                            <field name="user_id" invisible="1"/>
+                            <field name="qc_type" invisible="1"/>
+                            <field name="stock_picking_id" invisible="1"/>
+                            <field name="incoming_material_qc_created" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="attachment_ids" widget="many2many_binary"
+                                   nolabel="1" attrs="{'invisible': [('qc_state','!=','bulk_qc')]}"
+                            />
+                            <button name="import_file" string="Import Execl File" type="object" class="btn-primary"
+                                    attrs="{'invisible': [('qc_state','!=','bulk_qc')]}"/>
+                        </group>
+
+
+                    </group>
+
+                    <notebook>
+                        <page string="Product Lines">
+                            <field name="iqc_line_id">
+                                <tree editable="bottom">
+                                    <field name="product" widget="many2one" force_save="1" readonly="1"/>
+                                    <field name="product_qty" force_save="1" readonly="1"/>
+                                    <field name="hand_on_qty" force_save="1" readonly="1"/>
+                                    <field name="state" force_save="1" readonly="1"/>
+                                    <field name="passed_qty" readonly="1"/>
+                                    <field name="mrb_qty" readonly="1"/>
+
+                                    <button name="action_customer_qc" type="object"
+                                            icon="fa-external-link" string="QC Action"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+       <record id="action_pre_material_qc" model="ir.actions.act_window">
+        <field name="name">Pre Material QC</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">incoming.material.qc</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('qc_type', '=', 'pre_qc')]</field>
+        <field name="context">{'default_qc_type': 'pre_qc'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Enter the first order!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_pre_material_qc"
+              name="Pre Material QC"
+              parent="menu_qc_root"
+              action="action_pre_material_qc"
+              sequence="10"/>
+
+</odoo>

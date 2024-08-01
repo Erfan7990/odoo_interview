@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+          <menuitem id="inherit_menu_incoming_material_qc"
+              name="Incoming Material QC"
+              parent="purchase.menu_purchase_root"
+              action="action_incoming_material_qc"
+              sequence="10"/>
+    </data>
+
+</odoo>

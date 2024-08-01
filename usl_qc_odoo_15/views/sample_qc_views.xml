@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_customer_sample_product"
+              name="Customer Sample Product"
+              parent="stock.menu_stock_warehouse_mgmt"
+              action="temp_product_allocation.action_product_allocation"
+              sequence="100"/>
+
+</odoo>

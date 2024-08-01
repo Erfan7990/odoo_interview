@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="pre_assign_desk_engineer_table_tree_view" model="ir.ui.view">
+        <field name="name">assign.desk.engineer.wizard.table.tree</field>
+        <field name="model">assign.desk.engineer.wizard.table</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date"/>
+                <field name="bom_id"/>
+                <field name="qty"/>
+                <field name="lot_ids" widget="many2many_tags"/>
+                <field name="remaining_qty"/>
+                <field name="desk"/>
+                <field name="engineer"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pre_assign_desk_engineer_form_view" model="ir.ui.view">
+        <field name="name">assign.desk.engineer.wizard.form</field>
+        <field name="model">assign.desk.engineer.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="line_manager" invisible="1"/>
+                            <field name="date"/>
+                            <field name="line_management_id" invisible="1"/>
+                            <field name="default_bom_ids" invisible="1"/>
+                            <field name="lot_ids" invisible="1" widget="many2many_tags"/>
+                            <field name="bom_id" required="1"/>
+                            <field name="qty" force_save="1" readonly="1"/>
+                            <field name="remaining_qty" force_save="1" readonly="1"/>
+                            <field name="engineer_type" invisible="1"/>
+                            <button name="assign_product" type="object" string="Assign" class="btn-primary"/>
+                        </group>
+                        <group>
+                            <field name="assembly_line" readonly="1" invisible="1"/>
+
+                            <field name="desk" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}"/>
+                            <field name="engineer" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}"/>
+                            <field name="assign_qty"/>
+
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Engineer Assign">
+                            <field name="wizard_line_id">
+                                <tree editable="bottom">
+                                    <field name="bom_id" force_save="1"/>
+                                    <field name="qty" force_save="1"/>
+                                    <field name="lot_ids" force_save="1" widget="many2many_tags"/>
+                                    <field name="desk" force_save="1"/>
+                                    <field name="engineer" force_save="1"/>
+                                    <field name="date" force_save="1" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button string="Confirm" class="oe_highlight" type="object" name="action_confirm"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="post_assign_desk_engineer_form_view" model="ir.ui.view">
+        <field name="name">assign.desk.engineer.wizard.form</field>
+        <field name="model">assign.desk.engineer.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="line_manager" invisible="1"/>
+                            <field name="line_management_id" invisible="1"/>
+                            <field name="default_bom_ids" invisible="1"/>
+                            <field name="engineer_type" invisible="1"/>
+                            <field name="lot_ids" invisible="1" widget="many2many_tags"/>
+                            <field name="date"/>
+                            <field name="bom_id" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}"/>
+                            <field name="desk" string="Previous Desk" force_save="1" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}"
+                            attrs="{'readonly': [('engineer_type','=','assign_qc_fail')]}"/>
+                            <field name="engineer" string="Previous Engineer" readonly="1" force_save="1"  options="{'no_create': True, 'no_open': True, 'no_create_edit': True}"/>
+                            <field name="qty" force_save="1" readonly="1" />
+                            <field name="remaining_qty" force_save="1" readonly="1"/>
+                            <field name="assembly_line" readonly="1" invisible="1"/>
+
+                            <button name="assign_product" type="object" string="Assign" class="btn-primary"/>
+                        </group>
+                        <group>
+
+
+                            <field name="reassign_desk" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}"/>
+                            <field name="reassign_engineer"  options="{'no_create': True, 'no_open': True, 'no_create_edit': True}"/>
+                            <field name="reassign_qty"/>
+
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Engineer Assign">
+                            <field name="wizard_line_id">
+                                <tree editable="bottom">
+                                    <field name="bom_id" force_save="1"/>
+                                    <field name="qty" force_save="1"/>
+                                    <field name="lot_ids" force_save="1" widget="many2many_tags"/>
+                                    <field name="desk" force_save="1" attrs="{'column_invisible': [('parent.engineer_type','=','assign_qc_fail')]}"/>
+                                    <field name="engineer" force_save="1" attrs="{'column_invisible': [('parent.engineer_type','=','assign_qc_fail')]}"/>
+                                    <field name="reassign_desk" force_save="1" attrs="{'column_invisible': [('parent.engineer_type','!=','assign_qc_fail')]}"/>
+                                    <field name="reassign_engineer" force_save="1" attrs="{'column_invisible': [('parent.engineer_type','!=','assign_qc_fail')]}"/>
+
+                                    <field name="date" force_save="1" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button string="Confirm" class="oe_highlight" type="object" name="action_confirm"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

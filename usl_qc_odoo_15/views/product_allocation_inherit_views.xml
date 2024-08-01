@@ -1,0 +1,22 @@
+<odoo>
+    <data>
+
+        <record id="view_order_form_inherit" model="ir.ui.view">
+            <field name="name">product.allocation.inherit</field>
+            <field name="model">product.allocation</field>
+            <field name="inherit_id" ref="temp_product_allocation.view_product_allocation_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='oe_button_box']" position="inside">
+                    <button class="oe_stat_button" name="customer_qc_button"
+                            type="object"
+                            widget="statinfo" icon="fa-puzzle-piece" string="Customer QC">
+                    </button>
+                </xpath>
+                <xpath expr="//field[@name='done_qty']" position="after">
+                    <field name="qc_done" readonly="0"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

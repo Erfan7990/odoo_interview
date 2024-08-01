@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_mrp_production_form_inherit" model="ir.ui.view">
+            <field name="name">mrp.production.form.inherit</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='product_id']" position="before">
+                    <field name="bom_id"/>
+                    <field name="engineer_id" invisible="1"/>
+                    <field name="line_management_id" invisible="1"/>
+                    <field name="desk_id" invisible="1"/>
+                    <field name="assembly_line" invisible="1"/>
+                    <field name="production_planning_id" invisible="1"/>
+                    <field name="is_assigned_by_line_manager" invisible="1"/>
+                    <!--                    <field name="pre_qc_done" invisible="0"/>-->
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="desk_id"/>
+                </xpath>
+
+                <xpath expr="//field[@name='bom_id'][2]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="view_mrp_production_tree_inherit" model="ir.ui.view">
+            <field name="name">mrp.production.tree.inherit</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="/tree//field[@name='user_id']" position="after">
+                    <field name="desk_id"/>
+                    <field name="assembly_line"/>
+                </xpath>
+
+                <xpath expr="/tree//field[@name='user_id']" position="attributes">
+                    <attribute name="optional">show</attribute>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

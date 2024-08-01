@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mrb_search_view" model="ir.ui.view">
+        <field name="name">customer.qc.checking.line.search</field>
+        <field name="model">customer.qc.checking.line</field>
+        <field name="arch" type="xml">
+            <search string="Search">
+                <group expand="1" string="Group By">
+                    <filter name="im_qc_ref" context="{'group_by': 'im_qc_ref'}" string="Reference"/>
+
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="mrb_tree_view" model="ir.ui.view">
+        <field name="name">customer.qc.checking.line.tree</field>
+        <field name="model">customer.qc.checking.line</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="im_qc_ref"/>
+                <field name="product_id"/>
+                <field name="vendor" invisible="1"/>
+                <field name="inspection_basis"/>
+                <field name="inspection_methods"/>
+                <field name="use_equipment"/>
+                <field name="inspection_quantity"/>
+                <field name="inspection_form"/>
+                <field name="exception_handling"/>
+                <field name="responsibility_units"/>
+                <field name="qc_state"/>
+
+                <field name="is_clicked_on_action_cho_stock" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--    <record id="mrb_qc_product_form_view" model="ir.ui.view">-->
+    <!--    <field name="name">mrb.qc.product.form</field>-->
+    <!--    <field name="model">mrb.qc.product</field>-->
+    <!--    <field name="arch" type="xml">-->
+    <!--        <form>-->
+    <!--             <header>-->
+    <!--                    <button name="action_batch_annealing_qc" type="object" string="Store in Batch Annealing stock"/>-->
+    <!--                    <button name="action_special_mining_qc" type="object" string="Store in Special Mining stock"/>-->
+    <!--             </header>-->
+
+    <!--            <sheet>-->
+    <!--                <div class="oe_title">-->
+    <!--                    <h1>-->
+    <!--                        <field name="seq"/>-->
+    <!--                    </h1>-->
+    <!--                </div>-->
+    <!--                <group>-->
+    <!--                    <field name="purchase_order"/>-->
+    <!--                    <field name="user_id" invisible="1"/>-->
+    <!--                    <field name="incoming_qc_id" invisible="1"/>-->
+    <!--                </group>-->
+    <!--                <notebook>-->
+    <!--                    <page string="MRB Product Lines">-->
+    <!--                        <field name="mrb_qc_line_id">-->
+    <!--                            <tree editable="bottom">-->
+    <!--                                <field name="product" widget="many2one" force_save="1"/>-->
+    <!--                                <field name="mrb_qty" readonly="1" force_save="1"/>-->
+    <!--                                <field name="mrb_choose"/>-->
+    <!--                            </tree>-->
+    <!--                        </field>-->
+    <!--                    </page>-->
+    <!--                </notebook>-->
+    <!--            </sheet>-->
+    <!--        </form>-->
+    <!--    </field>-->
+    <!--</record>-->
+
+
+    <record id="action_mrb_qc" model="ir.actions.act_window">
+        <field name="name">MRB QC</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">customer.qc.checking.line</field>
+        <field name="view_mode">tree</field>
+        <field name="domain">[('qc_state', 'in', ['passed','failed'])]</field>
+        <field name="context">{'search_default_im_qc_ref':1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Enter the first order!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_mrb_qc"
+              name="MRB"
+              parent="menu_qc_root"
+              action="action_mrb_qc"
+              sequence="18"/>
+
+
+</odoo>

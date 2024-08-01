@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_qc_inspection_form_tree" model="ir.ui.view">
+        <field name="name">qc.inspection.form.tree</field>
+        <field name="model">qc.inspection.form</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="desc"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_qc_inspection_form_form" model="ir.ui.view">
+        <field name="name">qc.inspection.form.form</field>
+        <field name="model">qc.inspection.form</field>
+        <field name="arch" type="xml">
+
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="desc"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_qc_inspection_form" model="ir.actions.act_window">
+        <field name="name">Inspection Form</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">qc.inspection.form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Enter the first order!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_qc_inspection_form"
+              name="Inspection Form"
+              action="action_qc_inspection_form"
+              parent="menu_qc_config"
+              sequence="10"/>
+</odoo>
