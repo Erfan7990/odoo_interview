@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--    create Tree View -->
+    <record id="view_approval_clearance_department_tree" model="ir.ui.view">
+        <field name="name">approval.clearance.department.tree</field>
+        <field name="model">approval.clearance.department</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="department_name"/>
+                <field name="employees" widget="many2many_tags"/>
+                <field name="permission"/>
+
+            </tree>
+        </field>
+    </record>
+
+    <!--    create form view   -->
+    <record id="view_approval_clearance_department_form" model="ir.ui.view">
+        <field name="name">approval.clearance.department.form</field>
+        <field name="model">approval.clearance.department</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="department_name"/>
+                            <field name="employees" widget="many2many_tags" />
+                            <field name="permission"/>
+
+                        </group>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!--    generate menu action  -->
+    <record id="action_approval_clearance_department" model="ir.actions.act_window">
+        <field name="name">Approval Clearance From Department</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">approval.clearance.department</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your First Employee !
+            </p>
+        </field>
+    </record>
+
+    <!--    child submenu   -->
+    <menuitem id="menu_approval_clearance_department"
+              name="Department Clearance"
+              action="action_approval_clearance_department"
+              parent="menu_configuration_master"
+              groups="access_department_admin_approval_group"
+              sequence="0"/>
+
+</odoo>

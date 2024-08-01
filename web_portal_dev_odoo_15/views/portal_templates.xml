@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <template id="portal_my_home" inherit_id="portal.portal_my_home">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="url">/my/hospital</t>
+                <t t-set="title">Hospital</t>
+                <t t-set="placeholder_count" t-value="'hms_count'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_breadcrumbs" inherit_id="portal.portal_breadcrumbs">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'patients_list_view'" class="breadcrumb-item">Patients</li>
+            <li t-if="page_name == 'patients_form_view'" class="breadcrumb-item">
+                <a t-attf-href="/my/hospital">Patients</a>
+                <span t-esc="' / ' + patient_id.patient_id.name"/>
+            </li>
+            <!--            -->
+        </xpath>
+    </template>
+
+    <template id="hospital_patient_info_portal">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Hospital</t>
+            </t>
+            <t t-if="not patients">
+                <p>There are currently no Patients account.</p>
+            </t>
+            <t t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th class="text_center">ID</th>
+                        <th class="text_center">Photo</th>
+                        <th class="text_center">Patient</th>
+                        <th class="text_center">Sex</th>
+                        <th class="text_center">Date of Birth</th>
+                        <th class="text_center">Marital Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="patients" t-as="patient">
+                        <tr>
+                            <td class="text_center">
+                                <a t-attf-href="/my/hospital/#{patient.id}">
+                                    <t t-out="patient.name"/>
+                                </a>
+                            </td>
+                            <td class="text_center">
+                                <t t-if="patient.photo">
+                                    <img t-attf-src="data:image/png;base64,{{patient.photo}}" alt="avatar"
+                                         class="rounded-circle img-fluid"
+                                         style="width:50px;height:50px;"/>
+                                </t>
+                                <t t-else="">
+                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                                         alt="avatar"
+                                         class="rounded-circle img-fluid" style="width:50px;height:50px;"/>
+                                </t>
+                            </td>
+                            <td class="text_center">
+                                <t t-out="patient.patient_id.name"/>
+                            </td>
+                            <td class="text_center">
+                                <t t-out="patient.sex"/>
+                            </td>
+                            <td class="text_center">
+                                <t t-out="patient.date_of_birth"/>
+                            </td>
+                            <td class="text_center">
+                                <t t-out="patient.marital_status"/>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </t>
+        </t>
+    </template>
+
+    <template id="hospital_form_view_based_on_id" inherit_id="portal.portal_sidebar">
+        <xpath expr="//div[hasclass('o_portal_sidebar')]">
+            <t t-if="page_name == 'patients_form_view'">
+                <section style="background-color: #eee;">
+                    <div class="container py-5">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="card mb-4">
+                                    <div class="card-body text-center">
+                                        <t t-if="patient_id.photo">
+                                            <img t-attf-src="data:image/png;base64,{{patient_id.photo}}" alt="avatar"
+                                                 class="img-fluid"
+                                                 style="width:150px;"/>
+                                        </t>
+                                        <t t-else="">
+                                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                                                 alt="avatar"
+                                                 class="rounded-circle img-fluid" style="width: 150px;"/>
+                                        </t>
+                                        <h5 class="my-3">
+                                            <t t-out="patient_id.patient_id.name"/>
+                                        </h5>
+                                        <p class="text-muted mb-4">
+                                            <t t-out="patient_id.street"/>
+                                        </p>
+                                        <a t-attf-href="/my/hospital/print/{{patient_id.id}}" class="btn btn-primary fa fa-download">Download</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">ID</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <t t-out="patient_id.name"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Full Name</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <t t-out="patient_id.patient_id.name"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Date of Birth</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <t t-out="patient_id.date_of_birth"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">SEX</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <t t-out="patient_id.sex"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Marital Status</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <t t-out="patient_id.marital_status"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Address</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <t t-out="patient_id.street"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container py-5">
+                         <h2>History</h2>
+                        <t t-call="portal.message_thread">
+                            <t t-set="object" t-value="patient_id"/>
+                        </t>
+                    </div>
+                </section>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="my_hospital_link" name="Link to frontend portal" inherit_id="portal.user_dropdown">
+        <xpath expr="//*[@id='o_logout_divider']" position="before">
+            <a t-attf-href="/new/hospital/" role="menuitem" class="dropdown-item">My Hospital</a>
+        </xpath>
+    </template>
+
+
+    <template id="new_hospital_patient_creation_form">
+        <t t-call="portal.portal_layout">
+            <!--            <t t-call="portal.portal_table">-->
+            <div class="alert alert-success mt-4" role="alert" t-if="success_msg">
+                <t t-out="success_msg"/>
+            </div>
+            <t t-foreach="error_list" t-as="error">
+                <div class="alert alert-danger mt-4" role="alert">
+                    <t t-out="error"/>
+                </div>
+            </t>
+            <div id="new_patient_form">
+                <form method="post">
+                    <div class="form-group">
+                        <label for="name">Patient Name</label>
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter Patient Name"/>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="sex">Sex</label>
+                            <select name="sex" id="sex" class="form-control">
+                                <option value="">Select Options</option>
+                                <t t-foreach="patients_sex" t-as="patient">
+                                    <option t-att-value="patient[0]">
+                                        <t t-out="patient[1]"/>
+                                    </option>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="marital_status">Marital Status</label>
+                            <select name="marital_status" id="marital_status" class="form-control">
+                                <option value="">Select Options</option>
+                                <t t-foreach="marital_status" t-as="patient">
+                                    <option t-att-value="patient[0]">
+                                        <t t-out="patient[1]"/>
+                                    </option>
+                                </t>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="date_of_birth">Date of Birth</label>
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="date" class="form-control" id="date_of_birth" name="date_of_birth"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="street">Address</label>
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="text" class="form-control" id="street" name="street"
+                               placeholder="Apartment, studio, or floor"/>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Patient</button>
+                </form>
+            </div>
+        </t>
+    </template>
+</odoo>

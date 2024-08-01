@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Create Tree View -->
+    <record id="view_approval_clearance_relation_tree" model="ir.ui.view">
+        <field name="name">approval.clearance.relation.tree</field>
+        <field name="model">approval.clearance.relation</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="status == 'accepted'" decoration-danger="status == 'rejected'" decoration-warning="status == 'pending'" >
+                <field name="department_name"/>
+                <field name="approve_id" string="Employee Name"/>
+                <field name="reason"/>
+                <field name="status"/>
+
+<!--                <button name="action_approve" type="object" class="fa fa-check btn-success"-->
+<!--                        attrs="{'invisible': [('status', '!=', 'pending')]}"/>-->
+<!--                <button name="action_reject" type="object"  class="fa fa-times btn-danger"-->
+<!--                        attrs="{'invisible': [('status', '!=', 'pending')]}"/>-->
+
+
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="view_approval_clearance_relation_form" model="ir.ui.view">
+        <field name="name">approval.clearance.relation.form</field>
+        <field name="model">approval.clearance.relation</field>
+        <field name="arch" type="xml">
+            <form>
+
+
+                <header>
+                    <button name="action_approve" type="object" string="Approve" class="oe_highlight"
+                            attrs="{'invisible': ['|',('status', '!=', 'pending'),('compute_user_flag','=',True)]}"/>
+                    <button name="action_reject" type="object" string="Reject" class="alert alert-danger"
+                            attrs="{'invisible': ['|',('status', '!=', 'pending'),('compute_user_flag','=',True)]}"/>
+
+                    <field name="status" widget="statusbar" statusbar_visible="pending,accepted,rejected" />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <!--                            <field name="user_id"/>-->
+                            <field name="compute_user_flag" invisible="1"/>
+
+                            <field name="department_name"/>
+                            <field name="approve_id" string="Employee Name"/>
+                            <field name="employees" widget="many2many_tags" invisible="1"/>
+                        </group>
+                        <group>
+
+                            <field name="signature"/>
+                            <field name="reason"/>
+                            <field name="depends"/>
+                            <field name="description_of_outstanding" attrs="{'invisible': [('depends', '=', 'no')]}"/>
+
+
+
+                        </group>
+                    </group>
+
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+
+    <!-- Generate Menu Action -->
+    <!--    <record id="action_approval_clearance_relation" model="ir.actions.act_window">-->
+    <!--        <field name="name">Pending Approval</field>-->
+    <!--        <field name="type">ir.actions.act_window</field>-->
+    <!--        <field name="res_model">approval.clearance.relation</field>-->
+    <!--        <field name="view_mode">tree,form</field>-->
+    <!--        <field name="domain" eval="om_employee_clearance.get_dynamic_domain()"></field>-->
+    <!--&lt;!&ndash;        <field name="domain">[('can_approve_reject', '=', True)]</field>&ndash;&gt;-->
+    <!--        &lt;!&ndash;         <field name="domain"> [('department_name', 'in', [context.get('user.department_id.ids')])]</field>&ndash;&gt;-->
+    <!--        <field name="context">{}</field>-->
+    <!--    </record>-->
+
+
+    <record id="action_approval_clearance_relation" model="ir.actions.server">
+        <field name="name">Pending Approval</field>
+        <field name="model_id" ref="model_approval_clearance_relation"/>
+        <field name="state">code</field>
+        <field name="code">action = model._department_wise_view_render()</field>
+    </record>
+
+
+    <!-- Child Submenu -->
+    <menuitem id="menu_approval_clearance_relation"
+              name="Pending Approval"
+              action="action_approval_clearance_relation"
+              parent="menu_employee_clearance_root"
+              groups="access_department_approval_group"
+              sequence="10"/>
+
+</odoo>

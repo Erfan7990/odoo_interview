@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- parent menu -->
+    <menuitem id="menu_patient_root"
+              name="Hospital"
+              web_icon="om_hospital,static/description/icon.png"
+              sequence="0"/>
+    <!-- child menu -->
+    <menuitem id="menu_patient_master"
+              name="Patient Details"
+              parent="menu_patient_root"
+              sequence="0"/>
+
+    <menuitem id="menu_appointment_master"
+              name="Appointments"
+              parent="menu_patient_root"
+              sequence="10"/>
+
+    <menuitem id="menu_patient_tag_master"
+              name="Configurations"
+              parent="menu_patient_root"
+              sequence="20"/>
+    <!--    child submenu   -->
+    <menuitem id="menu_patient_tag"
+              name="Tags"
+              action="action_patient_tag"
+              parent="menu_patient_tag_master"
+              sequence="0"/>
+
+    <menuitem id="menu_reporting_master"
+              name="Reports"
+              parent="menu_patient_root"
+              sequence="40"/>
+
+    <menuitem id="menu_search_appointment_master"
+              name="Appointment"
+              parent="menu_reporting_master"
+              action="action_search_appointment_wizard"
+              sequence="10"/>
+
+    <menuitem id="menu_patient_report_master"
+              name="Patients"
+              parent="menu_reporting_master"
+              action="action_patient_report"
+              sequence="20"/>
+
+
+</odoo>

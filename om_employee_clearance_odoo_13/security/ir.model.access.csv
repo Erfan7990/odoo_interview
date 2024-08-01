@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access.employee.clearance,access_employee_clearance,om_employee_clearance.model_employee_clearance,base.group_user,1,1,1,1
+access.approval.clearance.department,access_approval_clearance_department,om_employee_clearance.model_approval_clearance_department,base.group_user,1,1,1,1
+access.approval.clearance.relation,access_approval_clearance_relation,om_employee_clearance.model_approval_clearance_relation,,1,1,1,0
+
+
+
+access.department.approval,access_department_approval,om_employee_clearance.model_department_approval,base.group_user,1,1,1,1

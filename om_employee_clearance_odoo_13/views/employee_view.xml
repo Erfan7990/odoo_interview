@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="hr_kanban_employee_inherit" model="ir.ui.view">
+            <field name="name">hr kanban employee inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <!--                <xpath expr="//field[@name='work_email']" position="before">-->
+                <!--                    <i class="fa fa-envelope"></i>-->
+                <!--                </xpath>-->
+                <!--                <xpath expr="//ul/li[3]" position="attributes">-->
+                <!--                    <attribute name="invisible">1</attribute>-->
+                <!--                </xpath>-->
+                <xpath expr="//ul/li[3]" position="after">
+                    <li>
+                        <i t-if="record.employee_code.raw_value" class="fa fa-user"></i>
+                        <field name="employee_code"/>&amp;nbsp;
+                        <i t-if="record.work_phone.raw_value" class="fa fa-phone"></i>
+                        <field name="work_phone"/>
+                    </li>
+                </xpath>
+                <!--                <xpath expr="//div/div/div/div/strong" position="replace">-->
+                <!--                    <field name="employee_attendance_state" invisible="1"/>-->
+                <!--                    <div class="float-right" t-if="record.employee_attendance_state.raw_value == 'present'">-->
+                <!--                        <span class="fa fa-circle text-success" role="img" aria-label="Present" title="Present"-->
+                <!--                              name="presence_present"/>-->
+                <!--                    </div>-->
+                <!--                    <div class="float-right" t-if="record.employee_attendance_state.raw_value == 'absent'">-->
+                <!--                        <span class="fa fa-circle text-danger" role="img" aria-label="Absent" title="Absent"-->
+                <!--                              name="presence_absent"/>-->
+                <!--                    </div>-->
+                <!--                    <div class="float-right" t-if="record.employee_attendance_state.raw_value == 'to_define'">-->
+                <!--                        <span class="fa fa-circle text-warning" role="img" aria-label="To define" title="To define"-->
+                <!--                              name="presence_to_define"/>-->
+                <!--                    </div>-->
+                <!--                    <field name="name" placeholder="Employee's Name"/>-->
+                <!--                </xpath>-->
+
+            </field>
+        </record>
+        <!-- Inherit Form View to Modify it -->
+        <record id="hr_social_site" model="ir.ui.view">
+            <field name="name">hr employee form view inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <!--  Existing Fields Are Here   -->
+                <xpath expr="//field[@name='department_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='department_id']" position="after">
+                    <group style="width:100%; margin:0; padding:0;">
+                        <field name="department_id" required="1"
+                               options="{'no_create_edit': True, 'no_create': True,'no_open': True}"/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='job_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='job_id']" position="after">
+                    <group style="width:100%; margin:0; padding:0;">
+                        <field name="job_id" required="1"
+                               options="{'no_create_edit': True, 'no_create': True,'no_open': True}"/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='parent_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='parent_id']" position="after">
+                    <group style="width:100%; margin:0; padding:0;">
+                        <field name="parent_id"/>
+                    </group>
+                </xpath>
+                <!--                Newly Added Fields Are Here-->
+                <xpath expr="//field[@name='department_id']" position="before">
+                    <group style="width:100%; margin:0; padding:0;">
+                        <field name="employee_code" required="1"/>
+                        <field name="employee_branch" force_save="1" readonly="False" required="1"
+                               options="{'no_create_edit': True, 'no_create': True,'no_open': True}"/>
+                    </group>
+                </xpath>
+                <!--                <xpath expr="//field[@name='job_id']" position="before">-->
+                <!--                    <group style="width:100%; margin:0; padding:0;">-->
+                <!--                        <field name="sub_department"-->
+                <!--                               options="{'no_create_edit': True, 'no_create': True,'no_open': True}"/>-->
+                <!--                        <field name="hr_team" options="{'no_create_edit': True, 'no_create': True,'no_open': True}"/>-->
+                <!--                        <field name="job_grade" options="{'no_create_edit': True, 'no_create': True,'no_open': True}"/>-->
+                <!--                    </group>-->
+                <!--                    <group style="width: 50%; margin:0; padding:0">-->
+                <!--                        <field name="emp_type" options="{'no_create_edit': True, 'no_create': True,'no_open': True}"/>-->
+                <!--                    </group>-->
+                <!--                    <group style="width: 50%; margin:0; padding:0">-->
+                <!--                        <field name="probation_end" attrs="{'invisible':[('emp_type','!=', 3)]}"/>-->
+                <!--                    </group>-->
+                <!--                </xpath>-->
+                <!--                    Right Column of Employee Form View Ends Here-->
+
+
+                <!--           Promotion_increment_action   string="Promotion or Increment"  is missing -->
+
+                <!--                <xpath expr="//field[@name='pin']" position="replace">-->
+                <!--                    <field name="make_readonly" invisible="1"/>-->
+                <!--                    <field name="pin" attrs="{'invisible':[('make_readonly', '=', True)]}"/>-->
+                <!--                </xpath>-->
+
+                <!--                <xpath expr="//field[@name='coach_id']" position="attributes">-->
+                <!--                    <attribute name="string">Responsible Manager</attribute>-->
+                <!--                    <attribute name="options">{'no_create_edit': True, 'no_create': True,'no_open': True}</attribute>-->
+                <!--                </xpath>-->
+
+                <!--                <xpath expr="//field[@name='leave_manager_id']" position="attributes">-->
+                <!--                    <attribute name="string">Report To</attribute>-->
+                <!--                    <attribute name="options">{'no_create_edit': True, 'no_create': True,'no_open': True}</attribute>-->
+                <!--                </xpath>-->
+
+                <!--                <xpath expr="//page[@name='personal_information']/group/group[8]" position="replace">-->
+                <!--                    <group string="Social Links">-->
+                <!--                        <field name="social_facebook" placeholder="www.facebook.com/..." class="o_address_street"-->
+                <!--                               widget="url"/>-->
+                <!--                        <field name="social_twitter" placeholder="www.twitter.com/..." class="o_address_street"-->
+                <!--                               widget="url"/>-->
+                <!--                        <field name="social_linkedin" placeholder="www.linkedin.com/..." class="o_address_street"-->
+                <!--                               widget="url"/>-->
+                <!--                        <field name="social_pinterest" placeholder="www.pinterest.com/..." class="o_address_street"-->
+                <!--                               widget="url"/>-->
+                <!--                        <field name="social_instagram" placeholder="www.instagram.com/..." class="o_address_street"-->
+                <!--                               widget="url"/>-->
+                <!--                    </group>-->
+                <!--                </xpath>-->
+                <!--                <xpath expr="//page[@name='public']" position="attributes">-->
+                <!--                    <attribute name="string">Education <![CDATA[&]]> Training</attribute>-->
+                <!--                </xpath>-->
+
+                <!--                <xpath expr="//form[@js_class='hr_employee_form']" position="attributes">-->
+                <!--                    <attribute name="class">smart_employee</attribute>-->
+                <!--                </xpath>-->
+
+                <!--                <xpath expr="//form/div[@class='oe_chatter']" position="attributes">-->
+                <!--                    <attribute name="class">o_chatter oe_chatter employee_chatter</attribute>-->
+                <!--                </xpath>-->
+                <!--                <xpath expr="//page[@name='personal_information']/group/group[3]" position="replace">-->
+                <!--                    <group string="Present Address" class="colspan-4">-->
+                <!--                        <label for="present_house" string="Address"/>-->
+                <!--                        <div class="o_address_format ">-->
+                <!--                            <div class="row m-2">-->
+
+                <!--                                <field name="present_house" placeholder='House No./ Street eg. 218, Elephant Road'-->
+                <!--                                       class="o_address_street col-12"/>-->
+                <!--                                <field name="present_village" placeholder="Village/Town/city" class="col-4"/>-->
+                <!--                                <field name="present_state" class="o_address_state col-3 ml-auto"-->
+                <!--                                       placeholder="State/Provenance/District"/>-->
+                <!--                                <field name="present_postal" placeholder="Postal/Zip Code"-->
+                <!--                                       class="o_address_zip col-4 ml-auto"/>-->
+                <!--                                <field name="present_country" placeholder="Country" class="o_address_country"-->
+                <!--                                       options="{'no_create': True, 'no_create_edit':True}"/>-->
+                <!--                            </div>-->
+
+                <!--                        </div>-->
+                <!--                    </group>-->
+                <!--                </xpath>-->
+
+                <!--                <xpath expr="//page[@name='personal_information']/group/group[4]" position="after">-->
+                <!--                    <group string="Permanent Address" class="colspan-4">-->
+                <!--                        <label for="permanent_house" string="Address"/>-->
+                <!--                        <div class="o_address_format ">-->
+                <!--                            <div class="row m-2">-->
+
+                <!--                                <field name="permanent_house" placeholder='House No./ Street e.g. 218, Elephant Road'-->
+                <!--                                       class="o_address_street col-12"/>-->
+                <!--                                <field name="permanent_village" placeholder="Village/Town/city" class="col-4"/>-->
+                <!--                                <field name="permanent_state" class="o_address_state col-3 ml-auto"-->
+                <!--                                       placeholder="State/Provenance/District"/>-->
+                <!--                                <field name="permanent_postal" placeholder="Postal/Zip Code"-->
+                <!--                                       class="o_address_zip col-4 ml-auto"/>-->
+                <!--                                <field name="permanent_country" placeholder="Country" class="o_address_country"-->
+                <!--                                       options="{'no_create': True, 'no_create_edit':True}"/>-->
+                <!--                            </div>-->
+
+                <!--                        </div>-->
+                <!--                    </group>-->
+                <!--                </xpath>-->
+
+                <!--                <xpath expr="//page[@name='personal_information']/group/group[1]" position="replace">-->
+                <!--                    <group string="Private Contact">-->
+                <!--                        <field name="personal_email"/>-->
+                <!--                        <field name="mobile_no"/>-->
+                <!--                    </group>-->
+                <!--                </xpath>-->
+
+                <!--                <xpath expr="//div[@class='o_row']" position="replace"/>-->
+                <!--                <xpath expr="//label[@for='barcode']" position="replace"/>-->
+                <!--                &lt;!&ndash;                <xpath expr="//field[@name='barcode']"  position="replace"/>&ndash;&gt;-->
+
+                <!--                &lt;!&ndash;                <xpath expr="//field[@name='resource_calendar_id']" position="attributes">&ndash;&gt;-->
+                <!--                &lt;!&ndash;                    <attribute name="required">0</attribute>&ndash;&gt;-->
+                <!--                &lt;!&ndash;                </xpath>&ndash;&gt;-->
+                <!--                <xpath expr="//field[@name='pin']" position="after">-->
+                <!--                    <field name="allow_remote_attendance" widget="boolean_toggle"/>-->
+                <!--                </xpath>-->
+
+
+                <!--                <xpath expr="//field[@name='company_id']" position="before">-->
+                <!--                    &lt;!&ndash;                    <field name="joining_date" attrs="{'readonly':[('joining_date','!=', False)]}"/>&ndash;&gt;-->
+                <!--                    <field name="joining_date"/>-->
+                <!--                    <field name="contract_id" readonly="1"/>-->
+                <!--                </xpath>-->
+                <!--                <xpath expr="//field[@name='gender']" position="after">-->
+                <!--                    <field name="religion"/>-->
+                <!--                    <field name="blood_group"/>-->
+                <!--                </xpath>-->
+                <!--                &lt;!&ndash;                <xpath expr="//field[@name='work_phone']" position="attributes">&ndash;&gt;-->
+                <!--                &lt;!&ndash;                    <attribute name="string">IP Ext</attribute>&ndash;&gt;-->
+
+                <!--                &lt;!&ndash;                </xpath>&ndash;&gt;-->
+
+                <!--                <xpath expr="//page[@name='personal_information']/group" position="after">-->
+                <!--                    <group name="nominee_ids" colspan="4" string="Nominee Info">-->
+                <!--                        <field name="nominee_ids">-->
+                <!--                            <tree editable="bottom">-->
+                <!--                                <field name="relation_id" required="1"-->
+                <!--                                       options="{'no_create_edit': True, 'no_create': True}"/>-->
+                <!--                                <field name="name" required="1"/>-->
+                <!--                                <field name="contact_number" required="1"/>-->
+                <!--                                <field name="contact_address" required="1"/>-->
+                <!--                                <field name="nominee_percent" required="1"/>-->
+                <!--                            </tree>-->
+                <!--                        </field>-->
+                <!--                    </group>-->
+                <!--                </xpath>-->
+
+                <!--                <xpath expr="//page[@name='personal_information']/group[@name='nominee_ids']" position="before">-->
+                <!--                    <group name="father_info" string="Parent Info">-->
+                <!--                        <group>-->
+                <!--                            <field name="father_name"/>-->
+                <!--                            <field name="mother_name"/>-->
+                <!--                            <field name="parent_address"/>-->
+                <!--                        </group>-->
+                <!--                        <group name="mother_info">-->
+                <!--                            <field name="father_contact"/>-->
+                <!--                            <field name="mother_contact"/>-->
+                <!--                            &lt;!&ndash;                        <field name="mother_address"/>&ndash;&gt;-->
+                <!--                        </group>-->
+                <!--                    </group>-->
+
+                <!--                </xpath>-->
+                <!--                <xpath expr="//page[@name='personal_information']/group[@name='fam_ids']" position="after">-->
+                <!--                    <group name="reference_info" colspan="4" string="Reference">-->
+                <!--                        <field name="reference_ids">-->
+                <!--                            <tree editable="bottom">-->
+                <!--                                <field name="name" required="1"/>-->
+                <!--                                <field name="reference_type"/>-->
+                <!--                                <field name="relation"/>-->
+                <!--                                <field name="occupation"/>-->
+                <!--                                <field name="organization"/>-->
+                <!--                                <field name="organization_address"/>-->
+                <!--                                <field name="position"/>-->
+                <!--                                <field name="mobile"/>-->
+                <!--                                <field name="email"/>-->
+                <!--&lt;!&ndash;                                <field name="employee_id" invisible="1"/>&ndash;&gt;-->
+                <!--                            </tree>-->
+                <!--                        </field>-->
+                <!--                    </group>-->
+                <!--                </xpath>-->
+                <!--                <xpath expr="//page[@name='personal_information']/group/group[7]" position="attributes">-->
+                <!--                    <attribute name="string">Children</attribute>-->
+                <!--                </xpath>-->
+                <!--                <xpath expr="//field[@name='work_phone']" position="attributes">-->
+                <!--                    <attribute name="string">IP Ext:</attribute>-->
+                <!--                </xpath>-->
+
+                <!--                <xpath expr="//field[@name='mobile_phone']" position="attributes">-->
+                <!--                    <attribute name="string">Mobile No (Office)</attribute>-->
+                <!--                </xpath>-->
+
+                <!--                <xpath expr="//field[@name='work_email']" position="attributes">-->
+                <!--                    <attribute name="string">Office Email</attribute>-->
+                <!--                </xpath>-->
+
+                <!--                <xpath expr="//field[@name='work_location']" position="attributes">-->
+                <!--                    <attribute name="string">Office Location</attribute>-->
+                <!--                </xpath>-->
+
+                <!--                <xpath expr="//field[@name='work_location']" position="attributes">-->
+                <!--                    <attribute name="string">Office Location</attribute>-->
+                <!--                </xpath>-->
+                <!--                <xpath expr="//field[@name='parent_id']" position="attributes">-->
+                <!--                    <attribute name="options">{'no_create_edit': True, 'no_create': True,'no_open': True}</attribute>-->
+                <!--                </xpath>-->
+                <!--                <xpath expr="//field[@name='expense_manager_id']" position="attributes">-->
+                <!--                    <attribute name="options">{'no_create_edit': True, 'no_create': True,'no_open': True}</attribute>-->
+                <!--                </xpath>-->
+                <!--                <xpath expr="//field[@name='user_id']" position="attributes">-->
+                <!--                    <attribute name="options">{'no_create_edit': True, 'no_create': True,'no_open': True}</attribute>-->
+                <!--                </xpath>-->
+                <!--                <xpath expr="//field[@name='company_id']" position="attributes">-->
+                <!--                    <attribute name="options">{'no_create_edit': True, 'no_create': True,'no_open': True}</attribute>-->
+                <!--                </xpath>-->
+
+                <!--                <xpath expr="//field[@name='coach_id']" position="attributes">-->
+                <!--                    <attribute name="options">{'no_create_edit': True, 'no_create': True,'no_open': True}</attribute>-->
+                <!--                </xpath>-->
+
+                <!--                <xpath expr="//field[@name='resource_calendar_id']" position="attributes">-->
+                <!--                    <attribute name="options">{'no_create_edit': True, 'no_create': True,'no_open': True}</attribute>-->
+                <!--                </xpath>-->
+                <!--                <xpath expr="//field[@name='fam_ids']/tree/field[@name='relation_id']" position="attributes">-->
+                <!--                    <attribute name="options">{'no_create_edit': True, 'no_create': True,'no_open': True}</attribute>-->
+                <!--                </xpath>-->
+
+            </field>
+        </record>
+
+        <!-- Inherit Form View to Modify it -->
+        <!--        <record id="history_view_bottom" model="ir.ui.view">-->
+        <!--            <field name="name">history view bottom</field>-->
+        <!--            <field name="model">hr.employee</field>-->
+        <!--            <field name="inherit_id" ref="history_employee.hr_employee_history_form_view"/>-->
+        <!--            <field name="arch" type="xml">-->
+
+        <!--                <xpath expr="//button[@name='department_details']" position="replace">-->
+        <!--                    <group string="Job History">-->
+
+        <!--                        <field name="job_history" create="false" edit="false">-->
+        <!--                        </field>-->
+        <!--                    </group>-->
+
+        <!--                </xpath>-->
+        <!--                <xpath expr="//button[@name='salary_history']" position="replace">-->
+        <!--                    <group string="Salary History">-->
+
+        <!--                        <field name="salary_history" create="false" edit="false"/>-->
+        <!--                    </group>-->
+
+        <!--                </xpath>-->
+        <!--                <xpath expr="//button[@name='contract_history']" position="replace">-->
+        <!--                    <group string="Promotion History">-->
+        <!--                        <field name="job_position_history" create="false" edit="false"/>-->
+        <!--                    </group>-->
+        <!--                    <group string="Contract History">-->
+
+        <!--                        <field name="contract_history" create="false" edit="false"/>-->
+        <!--                    </group>-->
+
+        <!--                </xpath>-->
+        <!--                <xpath expr="//button[@name='time_sheet']" position="replace">-->
+        <!--                    <group string="Timesheet Cost">-->
+
+        <!--                        <field name="timesheet_history" create="false" edit="false"/>-->
+        <!--                    </group>-->
+        <!--                    <group string="Lock/Unlock History">-->
+
+        <!--                        <field name="salary_lock_unlock_history" create="false" edit="false"/>-->
+        <!--                    </group>-->
+
+        <!--                </xpath>-->
+        <!--                <xpath expr="//field[@name='identification_id']" position="after">-->
+        <!--                    <field name="birth_certification_id"/>-->
+        <!--                </xpath>-->
+        <!--                <xpath expr="//field[@name='id_expiry_date']" position="replace">-->
+        <!--                    <field name="passport_id"/>-->
+        <!--                </xpath>-->
+
+        <!--                <xpath expr="//field[@name='identification_id']" position="attributes">-->
+        <!--                    <attribute name="string">NID No</attribute>-->
+        <!--                </xpath>-->
+
+        <!--                <xpath expr="//field[@name='study_school']" position="attributes">-->
+        <!--                    <attribute name="string">Institute</attribute>-->
+        <!--                </xpath>-->
+
+        <!--                <xpath expr="//page[@name='public']/div[@id='o_work_employee_container']/div/group[1]"-->
+        <!--                       position="replace">-->
+        <!--                </xpath>-->
+        <!--                <xpath expr="//page[@name='public']/div/div/group[last()]" position="attributes">-->
+        <!--                    <attribute name="groups"></attribute>-->
+        <!--                </xpath>-->
+
+        <!--                <xpath expr="//page[@name='public']/div[@id='o_work_employee_container']/div" position="after">-->
+        <!--                    <notebook>-->
+        <!--                        <page string="Job Description">-->
+        <!--                            <field name="job_description"/>-->
+        <!--                        </page>-->
+        <!--                    </notebook>-->
+        <!--                </xpath>-->
+
+        <!--                <xpath expr="//page[@name='hr_settings']" position="attributes">-->
+        <!--                    <attribute name="groups">hr.group_hr_manager</attribute>-->
+        <!--                </xpath>-->
+
+
+        <!--                <xpath expr="//field[@name='company_id']" position="before">-->
+        <!--                    <field name="address_home_id" string="Contact"/>-->
+        <!--                    &lt;!&ndash;                    <div class="o_row">&ndash;&gt;-->
+        <!--                    &lt;!&ndash;                        <field name="address_home_id" string="Contact"/>&ndash;&gt;-->
+        <!--                    &lt;!&ndash;                        <button string="Generate" class="btn btn-link" type="object" name="generate_random_barcode"&ndash;&gt;-->
+        <!--                    &lt;!&ndash;                                attrs="{'invisible': [('barcode', '!=', False)]}"/>&ndash;&gt;-->
+        <!--                    &lt;!&ndash;                    </div>&ndash;&gt;-->
+        <!--                    &lt;!&ndash;                    <field name="address_home_id" string="Contact"/>&ndash;&gt;-->
+        <!--                </xpath>-->
+
+
+        <!--            </field>-->
+        <!--        </record>-->
+
+        <!--            hr employee list view extending-->
+        <record id="employee_tree_view_extended" model="ir.ui.view">
+            <field name="name">hr tree employee inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="before">
+                    <!-- Add new fields ere -->
+                    <field name="image_1920" widget="image"/>
+                </xpath>
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="class">hr_tree_style</attribute>
+                </xpath>
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="employee_branch"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <!--        <record id="hr_employee_code_search" model="ir.ui.view">-->
+        <!--            <field name="name">hr.employee.skill.search</field>-->
+        <!--            <field name="model">hr.employee</field>-->
+        <!--            <field name="inherit_id" ref="hr.view_employee_filter"/>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--&lt;!&ndash;                <xpath expr="//field[@name='job_id']" position="after">&ndash;&gt;-->
+        <!--&lt;!&ndash;                    <field name="employee_code" string="Employee code"&ndash;&gt;-->
+        <!--&lt;!&ndash;                           filter_domain="[('employee_code', 'ilike', self)]"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;                </xpath>&ndash;&gt;-->
+        <!--                <xpath expr="//field[@name='name']" position="replace">-->
+        <!--                    <field name="name" string="Employee"-->
+        <!--                           filter_domain="['|', '|', ('work_email', 'ilike', self), ('name', 'ilike', self), ('employee_code', 'ilike', self)]"/>-->
+        <!--                </xpath>-->
+        <!--            </field>-->
+        <!--        </record>-->
+
+    </data>
+</odoo>

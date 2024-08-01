@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!--    create Tree View -->
+    <record id="view_employee_clearance_tree" model="ir.ui.view">
+        <field name="name">employee.clearance.tree</field>
+        <field name="model">employee.clearance</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="state == 'approved'" decoration-danger="state == 'cancelled'" decoration-warning="state == 'request_for_approval'" >
+                <field name="user_id"/>
+                <field name="department"/>
+                <field name="branch"/>
+                <field name="reason"/>
+                <field name="state" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--    create form view   -->
+    <record id="view_employee_clearance_form" model="ir.ui.view">
+        <field name="name">employee.clearance.form</field>
+        <field name="model">employee.clearance</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+
+                    <button name="superuser_action_approve" type="object" string="Approve" class="oe_highlight"
+                            groups="om_employee_clearance.access_super_admin_approval_group"
+                            attrs="{'invisible': [('state', '!=', 'request_for_approval')]}"/>
+                    <button name="superuser_action_reject" type="object" string="Reject" class="alert alert-danger"
+                            groups="om_employee_clearance.access_super_admin_approval_group"
+                            attrs="{'invisible': [('state', '!=', 'request_for_approval')]}"/>
+
+
+                    <button name="action_request_for_approval" string="Request for Approval" type="object"
+                            class="oe_highlight" states="draft"/>
+
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,request_for_approval,approved,cancelled"/>
+                    <!--                    <field name="state" widget="statusbar" nolabel="1"/>-->
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="user_id"/>
+                        </h1>
+                        <h3>
+                            <field name="job_title"/>
+                        </h3>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="reference" invisible="1"/>
+                            <field name="email" widget="email"/>
+                            <field name="phone" widget="phone"/>
+                            <field name="department"/>
+                            <field name="branch"/>
+                            <field name="company_name"/>
+
+                            <label for="company_street" string="Company Address"/>
+                            <div class="o_address_format">
+                                <field name="company_street" placeholder="Street..." class="o_address_street"/>
+                                <field name="company_city" placeholder="City" class="o_address_city"/>
+                                <field name="company_zip" placeholder="ZIP" class="o_address_zip"/>
+                            </div>
+
+
+                        </group>
+
+                        <group>
+                            <field name="employee_code"/>
+                            <field name="clearance_date" options="{'format': 'DD.MM.YYYY'}"/>
+                            <field name="reason"/>
+                            <field name="team_manager"/>
+                            <field name="attachment"/>
+                        </group>
+                    </group>
+
+
+                    <notebook>
+
+                        <page string="Department Approvals">
+                            <field name="employee_clearance_line">
+                                <tree>
+                                    <!--               <field name="user_id" invisible="1"/>-->
+                                    <field name="department_name"/>
+                                    <field name="employees" widget="many2many_tags" invisible="1"/>
+                                    <!--<field name="permission" invisible="1"/>-->
+                                    <field name="depends"/>
+                                    <field name="description_of_outstanding" attrs="{'invisible': [('depends', '=', 'no')]}"/>
+                                    <field name="status"/>
+                                    <field name="signature" widget="image" style="width: 50px;display: block;margin: 0 auto;"/>
+
+                                </tree>
+
+
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+
+
+    <!--    &lt;!&ndash;        generate menu action  &ndash;&gt;-->
+    <!--    <record id="action_employee_clearance" model="ir.actions.act_window">-->
+    <!--        <field name="name">Employee</field>-->
+    <!--        <field name="type">ir.actions.act_window</field>-->
+    <!--        <field name="res_model">employee.clearance</field>-->
+    <!--        <field name="view_mode">tree,form</field>-->
+    <!--        <field name="domain">[('create_uid', '=', uid)]</field>-->
+    <!--        <field name="context">{}</field>-->
+    <!--        <field name="help" type="html">-->
+    <!--            <p class="o_view_nocontent_smiling_face">-->
+    <!--                Create your First Employee !-->
+    <!--            </p>-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+    <record id="action_employee_clearance_view" model="ir.actions.server">
+        <field name="name">Employee</field>
+        <field name="model_id" ref="model_employee_clearance"/>
+        <field name="state">code</field>
+        <field name="code">action = model._user_profile_view_render()</field>
+    </record>
+
+
+    <menuitem id="menu_employee_details_master"
+              name="Employee"
+              action="action_employee_clearance_view"
+              parent="menu_employee_master"
+              groups="access_employee_group"
+              sequence="0"/>
+
+</odoo>

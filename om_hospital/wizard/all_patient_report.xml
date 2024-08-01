@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!--    create form view   -->
+    <record id="view_patient_report_form" model="ir.ui.view">
+        <field name="name">patient.report.wizard.form</field>
+        <field name="model">patient.report.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+
+
+                    <group>
+                        <group>
+                            <!-- invisible="context.get('hide_appointment')" -->
+                            <field name="gender"/>
+                        </group>
+                        <group>
+                            <field name="age"/>
+                        </group>
+
+                    </group>
+
+
+                <!--                </div>-->
+                <footer>
+                    <button string="Print" name="action_all_patient" type="object" class="btn-primary"/>
+                    <button string="Discard" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <!--    generate menu action  -->
+    <record id="action_patient_report" model="ir.actions.act_window">
+        <field name="name">Patient Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">patient.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_patient_report_form"/>
+        <field name="target">new</field>
+    </record>
+
+
+
+</odoo>

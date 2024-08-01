@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="action_employee_clearance_report" model="ir.actions.report">
+        <field name="name">Clearance Report</field>
+        <field name="model">employee.clearance</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">om_employee_clearance.report_for_employee_clearance</field>
+        <field name="report_file">om_employee_clearance.report_for_employee_clearance</field>
+        <field name="binding_model_id" ref="model_employee_clearance"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

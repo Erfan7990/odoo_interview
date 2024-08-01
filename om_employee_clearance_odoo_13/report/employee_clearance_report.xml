@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--     <link rel="stylesheet" type="text/css" href="/om_employee_clearance/static/src/css/style.css"/>-->
+
+    <template id="report_for_employee_clearance">
+        <t t-call="web.basic_layout">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+
+                    <div class="page">
+                        <div class="container">
+                            <div class="text-center">
+                                <h3>
+                                    <t t-esc="o.company_name"/>
+                                </h3>
+                                <h3>
+                                    <span><t t-esc="o.company_street"/>,
+                                        <t t-esc="o.company_city"/>
+                                    </span>
+                                </h3>
+                            </div>
+                            <div>
+                                <p>
+
+                                    <span style="float: left;">
+                                        <t t-esc="o.reference"/>
+                                    </span>
+                                    <span style="float: right;">
+                                        <t t-esc="o.clearance_date.strftime('%d.%m.%Y')"/>
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="text-center" style="margin-top: 50px;">
+                                <p class="font-weight-bold">Non-Objection Certificate</p>
+                            </div>
+                            <div>
+                                <p class="font-weight-normal">
+                                    <span>
+                                        <t t-esc="o.user_id.name"/>
+                                    </span>
+                                    ,
+                                    <span>
+                                        <t t-esc="o.job_title"/>
+                                    </span>
+                                    -
+                                    <span>
+                                        <t t-esc="o.department"/>
+                                    </span>
+                                    ,
+                                    <span>ID #
+                                        <t t-esc="o.employee_code"/>
+                                    </span>
+                                    <span>
+                                        <t t-esc="o.reason"/>
+                                    </span>
+                                    from this organization with effect from
+                                    <span>
+                                        <t t-esc="o.clearance_date.strftime('%d %B %Y')"/>
+                                    </span>
+                                    which has been accepted by the Management. To give him release order you are advice
+                                    to provide non-Objection in favor of his
+                                    from your department after settlement of any outstanding lying against him.
+                                </p>
+                            </div>
+
+                            <div style="margin-top: 50px; text-align: center; align-item: center;center">
+                                <t t-if="o.employee_clearance_line">
+                                    <table class="table table-bordered o_main_table">
+                                        <thead>
+                                            <tr>
+                                                <th name="th_si_no" class="text-start" style="margin-right: 0; width: 10%">
+                                                    <span>SI.No.</span>
+                                                </th>
+                                                <th name="th_department_name" class="text-start">
+                                                    <span>Department</span>
+                                                </th>
+                                                <th name="th_depends" class="text-start">
+                                                    <span>Outstanding</span>
+                                                </th>
+                                                <th name="th_description_of_outstanding" class="text-start">
+                                                    <span>Description of Outstanding(if any)</span>
+                                                </th>
+                                                <th name="th_signature" class="text-start">
+                                                    <span>Signature of Department Head</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <t t-foreach="o.employee_clearance_line" t-as="line">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="margin-right: 0;">
+                                                        <span t-esc="line_index + 1"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.department_name"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.depends"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.description_of_outstanding"/>
+                                                    </td>
+                                                    <td>
+                                                        <img t-if="line.signature"
+                                                             t-att-src="'data:image/png;base64,%s' % to_text(line.signature)"
+                                                             height="50" width="100"/>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </t>
+                                    </table>
+
+
+                                </t>
+                            </div>
+                            <div style="margin-top: 50px;">
+                                <p style="margin: 0;">Thanking you.</p>
+                                <p>Best regards,</p>
+                            </div>
+                            <t t-if="o.employee_clearance_line">
+                                <div>
+                                    <t t-foreach="o.employee_clearance_line" t-as="data">
+                                        <p style="margin: 0;">
+                                            <t t-esc="data.hr_employee"/>
+                                        </p>
+                                    </t>
+                                    <t t-foreach="o.employee_clearance_line" t-as="data">
+                                        <span>
+                                            <t t-esc="data.hr_employee_job_title"/>
+                                        </span>
+
+                                    </t>
+                                    -
+                                    <t t-foreach="o.employee_clearance_line" t-as="data">
+
+                                        <span>
+                                            <t t-esc="data.hr_employee_department"/>
+                                        </span>
+
+                                    </t>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+</odoo>
+

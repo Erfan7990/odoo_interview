@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--    Create search View -->
+    <record id="view_cancel_appointment_search" model="ir.ui.view">
+        <field name="name">cancel.appointment.wizard.search</field>
+        <field name="model">cancel.appointment.wizard</field>
+        <field name="arch" type="xml">
+            <search>
+
+            </search>
+        </field>
+    </record>
+
+
+    <!--    create form view   -->
+    <record id="view_cancel_appointment_form" model="ir.ui.view">
+        <field name="name">cancel.appointment.wizard.form</field>
+        <field name="model">cancel.appointment.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+
+                    <group>
+                        <group>
+                            <!-- invisible="context.get('hide_appointment')" -->
+                            <field name="appointment_id"/>
+                            <field name="reason"/>
+                            <field name="cancel_date"/>
+
+                        </group>
+                        <group>
+
+                        </group>
+
+                    </group>
+                </sheet>
+                <!--                &lt;!&ndash;  Adding Chatter &ndash;&gt;-->
+                <!--                <div class="oe_chatter">-->
+                <!--                    <field name="message_follower_ids" groups="base.group_user"/>-->
+                <!--                    <field name="activity_ids"/>-->
+                <!--                    <field name="message_ids"/>-->
+                <!--                </div>-->
+                <footer>
+                    <button string="Cancel Appointment" name="action_cancel" type="object" class="btn-primary"
+                            data-hotkey="q"/>
+                    <button string="Discard" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <!--    generate menu action  -->
+    <record id="action_cancel_appointment" model="ir.actions.act_window">
+        <field name="name">Cancel Appointment</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">cancel.appointment.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_cancel_appointment_master"
+              name="Cancellation"
+              parent="menu_appointment_master"
+              action="action_cancel_appointment"
+              sequence="20"/>
+
+</odoo>

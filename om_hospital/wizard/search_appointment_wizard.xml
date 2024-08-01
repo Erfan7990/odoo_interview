@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!--    create form view   -->
+    <record id="view_search_appointment_form" model="ir.ui.view">
+        <field name="name">search.appointment.wizard.form</field>
+        <field name="model">search.appointment.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+
+                    <group>
+                        <group>
+                            <!-- invisible="context.get('hide_appointment')" -->
+                            <field name="patient_id"/>
+                        </group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+
+                        </group>
+
+                    </group>
+                </sheet>
+
+                <!--                </div>-->
+                <footer>
+                    <button string="Print" name="action_search" type="object" class="btn-primary"/>
+                    <button string="Discard" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <!--    generate menu action  -->
+    <record id="action_search_appointment_wizard" model="ir.actions.act_window">
+         <field name="name">View Appointment</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">search.appointment.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_search_appointment_form"/>
+        <field name="target">new</field>
+    </record>
+
+
+
+</odoo>
